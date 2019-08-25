@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Directory.h"
+#include "Url.h"
 
 int main(){
-  char Op[6], Valor[50];
+  char Op[6], Valor[50], NomeAnt[50];
+
+  url *Url = (url *) malloc(sizeof (url));
+  InicializaUrl(Url);
 
 	Directory* Root = Inicializar();
 	Directory* Atual = Root;
+  InsereElementoUrl(Url, Atual->Nome);
   do {
-      printf("%s\\", Atual->Nome);
+      MostraUrl(Url);
+
       fflush(stdin);
       gets(Op); // Pega o pedido
       if(strcmp(Op, "ls") == 0){
@@ -26,12 +32,23 @@ int main(){
         Atual = InserirDirectory(Atual, Valor);
       }
       else if(strcmp(Op, "cd ..") == 0){
+        strcpy(NomeAnt, Atual->Nome);
+
         Atual = VoltarDiretorio(Atual);
+
+        if(strcmp(Atual->Nome, NomeAnt) != 0)
+        DesempilhaElementoUrl(Url);
       }
       else if(strcmp(Op, "cd") == 0){
+        strcpy(NomeAnt, Atual->Nome);
+        
         fflush(stdin);
         gets(Valor); // Pega o pedido
+
         Atual = EntraDiretorio(Atual, Valor);
+
+        if(strcmp(Atual->Nome, NomeAnt) != 0)
+          InsereElementoUrl(Url, Atual->Nome);
       }
       else if(strcmp(Op, "rm") == 0){
 
