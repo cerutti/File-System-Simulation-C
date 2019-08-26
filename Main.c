@@ -4,6 +4,8 @@
 #include "Directory.h"
 #include "Url.h"
 
+char Funcao1[10], Funcao2[50];
+
 int main(){
   char Op[6], Valor[50], NomeAnt[50];
 
@@ -41,7 +43,7 @@ int main(){
       }
       else if(strcmp(Op, "cd") == 0){
         strcpy(NomeAnt, Atual->Nome);
-        
+
         fflush(stdin);
         gets(Valor); // Pega o pedido
 
@@ -61,6 +63,6 @@ int main(){
       }
 
   } while(1);
-
+  FinalizaPilha(Url);
   return 0;
 }

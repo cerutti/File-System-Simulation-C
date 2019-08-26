@@ -14,7 +14,7 @@ void InicializaUrl(url *Url);
 void MostraUrl(url *Url);
 url *AlocaElemento();
 int VerificaVazio(url *Url);
-void FinalizaCaixa(url *Url);
+void FinalizaPilha(url *Url);
 void InsereElementoUrl(url *Url, char v[]);
 void *DesempilhaElementoUrl(url *Url);
 //Fim de declaração de Funções
@@ -27,7 +27,7 @@ void InicializaUrl(url *Url) {
 
 // Função responsavel por verificar se o caixa está vazio
 int VerificaVazio(url *Url) {
-    if (Url->prox == NULL) //Verifica se o caixa é nulo
+    if (Url->prox == NULL) //Verifica se a URL é nula
         return 1;
     else
         return 0;
@@ -41,29 +41,32 @@ url *AlocaElemento() {
 
 
 
-// Função resonsavel por listar todos os elementos armazenados no caixa
+// Função resonsavel por listar o caminho percorrido
 void MostraUrl(url *Url) {
-    int count = 0;
+    int count = tam;
 
-    if (VerificaVazio(Url)) { //Verifica se o caixa está vazio
+    if (VerificaVazio(Url)) { //Verifica se a url está vazia
         printf("Nao existe URL\n\n");
         return;
     }
 
     url* tmp; //Cria um elemento caixa temporario
-    tmp = Url->prox; //Atribui ao elemento temporario o caixa com os dados
-
+    tmp = Url->prox; //Atribui ao elemento temporario a url com os dados
     while (tmp != NULL) { //Laço que percorre o caixa temporario
-        count++;
-        printf("%s\\", tmp->Nome); //Exibe o valor inserido nessa posição
+        printf("%s", tmp->Nome); //Exibe o valor inserido nessa posição
         tmp = tmp->prox; //Passa para a proxima posição
+        if(count > 1){
+          printf("\\");
+        }
+        count--;
     }
+    printf(">");
 }
 
 
-// Função responsavel por finalizar o caixa e liberar toda a memoria alocada
-void FinalizaCaixa(url *Url) {
-    if (!VerificaVazio(Url)) { //Verifia se o caixa está diferente de vazio
+// Função responsavel por finalizar a url e liberar toda a memoria alocada
+void FinalizaPilha(url *Url) {
+    if (!VerificaVazio(Url)) { //Verifia se o url está diferente de vazio
         url *proxNode, *atual; //Declara Variaveis auxiliares
 
         atual = Url->prox; //Atribui a atual o primeiro valor do caixa
@@ -75,13 +78,13 @@ void FinalizaCaixa(url *Url) {
     }
 }
 
-// Função responsavel por inserir um novo elemento no caixa
+// Função responsavel por inserir um novo elemento no url
 void InsereElementoUrl(url *Url, char v[]) {
     url *novo = AlocaElemento(); //Chama função que aloca novo elemento
     strcpy(novo->Nome, v); //Atribui um nome ao novo elemento
     novo->prox = NULL; //atribui ao prox o valor null
 
-    if (VerificaVazio(Url)) //verifica se o caixa esta vazio
+    if (VerificaVazio(Url)) //verifica se a url esta vazia
         Url->prox = novo; //Se estiver vazio insere o elemento
     else {
         url *tmp = Url->prox;

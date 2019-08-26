@@ -19,6 +19,7 @@ Directory* InserirFile(Directory* Atual, char Nome[]);
 void MostrarDiretorios(Directory* Atual);
 Directory* EntraDiretorio(Directory* Atual, char Nome[]);
 Directory* VoltarDiretorio(Directory* Atual);
+Directory* DeletaElemento(Directory* Atual, char Nome[]);
 //Fim de declaração de Funções
 
 //Função responsavel por inicializa a raiz do sistema de arquivos
@@ -46,10 +47,13 @@ Directory* EntraDiretorio(Directory* Atual, char Nome[]){
     tmp = Atual; //Caso seja atribui ao tmp o valor do atual
   else{
     Atual = Atual->Irmao; //Pega o irmao do atual
-  while((strcmp(Atual->Nome, Nome)!=0)&&(Atual!=NULL)&&(Atual->Tipo != 1)){ //Percorre os irmaos até encontrar um arquivo com o nome desejadp
+  while((Atual!=NULL)&&(strcmp(Atual->Nome, Nome)!=0)&&(Atual->Tipo != 1)){ //Percorre os irmaos até encontrar um arquivo com o nome desejadp
     Atual = Atual->Irmao; //Atribui ao atual o proximo irmao
   }
-  tmp = Atual; //Atribui ao tmp o atual
+  if(Atual != NULL)
+    tmp = Atual; //Atribui ao tmp o atual
+  else
+    printf("O Sistema nao pode encontrar o caminho especificado.\n\n");
 }
     return tmp; //Retorna o valor encontrado
 }
@@ -131,7 +135,7 @@ return Pai; //Retorna o elemento pai
 void MostrarDiretorios(Directory* Atual)
 {
 	if (Atual->Filho == NULL) //Verifica se existem arquivos
-		printf("\n Diretorio Vazio \n"); //Exibe mensagem caso não houver
+		printf("\n Diretorio Vazio \n\n"); //Exibe mensagem caso não houver
 	else {
 		Atual = Atual->Filho; //Pega o filho do elemento atual
     printf("\n");
@@ -144,3 +148,7 @@ void MostrarDiretorios(Directory* Atual)
 	}
 }
 //Fim da função
+
+Directory* DeletaElemento(Directory* Atual, char Nome[]){
+
+}
