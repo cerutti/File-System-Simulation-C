@@ -1,3 +1,10 @@
+/*
+Trabalho de Estrutura de Dados
+Tema: Sistema que simula de forma simples o funcionamento de um sistema de arquivos, com funções como adicionar pasta/arquivo, navegar entre diretórios e remoção de pastas/arquivos.
+Alunos: Alisson Cerutti, Mitchell Luiz Damasceno Lopes, Thiago Leite de Oliveira Acco
+https://github.com/cerutti/File-System-Simulation-using-C
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,7 +28,7 @@ int main() {
         gets(Op); // Pega a nome
         if (strcmp(Op, "ls") == 0) {
 
-            MostrarDiretorios(Atual); 
+            MostrarDiretorios(Atual);
 
         } else if (strcmp(Op, "ma") == 0) {
 
