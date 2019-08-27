@@ -4,65 +4,75 @@
 #include "Directory.h"
 #include "Url.h"
 
-char Funcao1[10], Funcao2[50];
 
-int main(){
-  char Op[6], Valor[50], NomeAnt[50];
+int main() {
+    char Op[5], Nome[50], NomeAnt[50];
 
-  url *Url = (url *) malloc(sizeof (url));
-  InicializaUrl(Url);
+    url *Url = (url *) malloc(sizeof (url)); //Aloca url
+    InicializaUrl(Url); //Inicializa url
 
-	Directory* Root = Inicializar();
-	Directory* Atual = Root;
-  InsereElementoUrl(Url, Atual->Nome);
-  do {
-      MostraUrl(Url);
-
-      fflush(stdin);
-      gets(Op); // Pega o pedido
-      if(strcmp(Op, "ls") == 0){
-        MostrarDiretorios(Atual);
-      }
-      else if(strcmp(Op, "ma") == 0){
-        fflush(stdin);
-        gets(Valor); // Pega o pedido
-        Atual = InserirFile(Atual, Valor);
-      }
-      else if(strcmp(Op, "mp") == 0){
-        fflush(stdin);
-        gets(Valor); // Pega o pedido
-        Atual = InserirDirectory(Atual, Valor);
-      }
-      else if(strcmp(Op, "cd ..") == 0){
-        strcpy(NomeAnt, Atual->Nome);
-
-        Atual = VoltarDiretorio(Atual);
-
-        if(strcmp(Atual->Nome, NomeAnt) != 0)
-        DesempilhaElementoUrl(Url);
-      }
-      else if(strcmp(Op, "cd") == 0){
-        strcpy(NomeAnt, Atual->Nome);
+    Directory* Root = Inicializar(); //inicializa o diretorio
+    Directory* Atual = Root; //atribui ao atual o root
+    InsereElementoUrl(Url, Atual->Nome); //insere o root na url
+    do {
+        MostraUrl(Url); //lista a url
 
         fflush(stdin);
-        gets(Valor); // Pega o pedido
+        gets(Op); // Pega a nome
+        if (strcmp(Op, "ls") == 0) {
 
-        Atual = EntraDiretorio(Atual, Valor);
+            MostrarDiretorios(Atual); 
 
-        if(strcmp(Atual->Nome, NomeAnt) != 0)
-          InsereElementoUrl(Url, Atual->Nome);
-      }
-      else if(strcmp(Op, "rm") == 0){
+        } else if (strcmp(Op, "ma") == 0) {
 
-      }
-      else if(strcmp(Op, "ex") == 0){
-        break;
-      }
-      else{
-        printf("comando invalido \n");
-      }
+            fflush(stdin);
+            gets(Nome); // Pega o nome
+            Atual = InserirFile(Atual, Nome);
 
-  } while(1);
-  FinalizaPilha(Url);
-  return 0;
+        } else if (strcmp(Op, "mp") == 0) {
+
+            fflush(stdin);
+            gets(Nome); // Pega o nome
+            Atual = InserirDirectory(Atual, Nome);
+
+        } else if (strcmp(Op, "cd ..") == 0) {
+
+            strcpy(NomeAnt, Atual->Nome);
+
+            Atual = VoltarDiretorio(Atual);
+
+            if (strcmp(Atual->Nome, NomeAnt) != 0)
+                DesempilhaElementoUrl(Url);
+
+        } else if (strcmp(Op, "cd") == 0) {
+
+            strcpy(NomeAnt, Atual->Nome);
+
+            fflush(stdin);
+            gets(Nome); // Pega o nome
+
+            Atual = EntraDiretorio(Atual, Nome);
+
+            if (strcmp(Atual->Nome, NomeAnt) != 0)
+                InsereElementoUrl(Url, Atual->Nome);
+
+        } else if (strcmp(Op, "rm") == 0) {
+
+            fflush(stdin);
+            gets(Nome); // Pega o nome
+
+            Atual = DeletaElemento(Atual, Nome);
+
+        } else if (strcmp(Op, "ex") == 0) {
+
+            break;
+
+        } else {
+
+            printf("comando invalido \n");
+        }
+
+    } while (1);
+    FinalizaPilha(Url); //Finaliza URL
+    return 0;
 }

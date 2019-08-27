@@ -20,12 +20,14 @@ void *DesempilhaElementoUrl(url *Url);
 //Fim de declaração de Funções
 
 // Fução responsavel por inicializar o caixa
+
 void InicializaUrl(url *Url) {
     Url->prox = NULL;
     tam = 0;
 }
 
 // Função responsavel por verificar se o caixa está vazio
+
 int VerificaVazio(url *Url) {
     if (Url->prox == NULL) //Verifica se a URL é nula
         return 1;
@@ -34,6 +36,7 @@ int VerificaVazio(url *Url) {
 }
 
 // Função responsavel por alocar e retornar novo elemento que será inserido no caixa
+
 url *AlocaElemento() {
     url *novo = (url *) malloc(sizeof (url)); //Aloca elemento
     return novo; //Retorna elemento alocado
@@ -42,6 +45,7 @@ url *AlocaElemento() {
 
 
 // Função resonsavel por listar o caminho percorrido
+
 void MostraUrl(url *Url) {
 
     if (VerificaVazio(Url)) { //Verifica se a url está vazia
@@ -60,6 +64,7 @@ void MostraUrl(url *Url) {
 
 
 // Função responsavel por finalizar a url e liberar toda a memoria alocada
+
 void FinalizaPilha(url *Url) {
     if (!VerificaVazio(Url)) { //Verifia se o url está diferente de vazio
         url *proxNode, *atual; //Declara Variaveis auxiliares
@@ -74,6 +79,7 @@ void FinalizaPilha(url *Url) {
 }
 
 // Função responsavel por inserir um novo elemento no url
+
 void InsereElementoUrl(url *Url, char v[]) {
     url *novo = AlocaElemento(); //Chama função que aloca novo elemento
     strcpy(novo->Nome, v); //Atribui um nome ao novo elemento
@@ -92,20 +98,19 @@ void InsereElementoUrl(url *Url, char v[]) {
     tam++;
 }
 
-void *DesempilhaElementoUrl(url *Url)
-{
- if(Url->prox == NULL){
-  printf("PILHA ja vazia\n\n");
-  return NULL;
- }else{
-  url *ultimo = Url->prox, *penultimo = Url;
+void *DesempilhaElementoUrl(url *Url) {
+    if (Url->prox == NULL) { //Verifica se está vazio
+        printf("PILHA ja vazia\n\n");
+        return NULL;
+    } else {
+        url *ultimo = Url->prox, *penultimo = Url;
 
-  while(ultimo->prox != NULL){
-   penultimo = ultimo;
-   ultimo = ultimo->prox;
-  }
+        while (ultimo->prox != NULL) {
+            penultimo = ultimo;
+            ultimo = ultimo->prox;
+        }
 
-  penultimo->prox = NULL;
-  tam--;
- }
+        penultimo->prox = NULL;
+        tam--;
+    }
 }
