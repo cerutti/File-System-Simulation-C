@@ -43,7 +43,6 @@ url *AlocaElemento() {
 
 // Função resonsavel por listar o caminho percorrido
 void MostraUrl(url *Url) {
-    int count = tam;
 
     if (VerificaVazio(Url)) { //Verifica se a url está vazia
         printf("Nao existe URL\n\n");
@@ -53,12 +52,8 @@ void MostraUrl(url *Url) {
     url* tmp; //Cria um elemento caixa temporario
     tmp = Url->prox; //Atribui ao elemento temporario a url com os dados
     while (tmp != NULL) { //Laço que percorre o caixa temporario
-        printf("%s", tmp->Nome); //Exibe o valor inserido nessa posição
+        printf("%s\\", tmp->Nome); //Exibe o valor inserido nessa posição
         tmp = tmp->prox; //Passa para a proxima posição
-        if(count > 1){
-          printf("\\");
-        }
-        count--;
     }
     printf(">");
 }

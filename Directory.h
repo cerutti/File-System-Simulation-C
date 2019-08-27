@@ -40,20 +40,24 @@ Directory* Inicializar()
 //Função responsavel por entrar em um diretorio determinado pelo usuario
 Directory* EntraDiretorio(Directory* Atual, char Nome[]){
   Directory* tmp = (Directory*)malloc(sizeof(Directory)); //Aloca uma variavel temporaria
+  Directory* Current = (Directory*)malloc(sizeof(Directory));
+  Current = Atual;
   tmp = Atual; //Atribui a variavel o atual
 
   Atual = Atual->Filho; //Pega o filho do atual
   if((strcmp(Atual->Nome, Nome)==0)&&(Atual->Tipo == 0)) //Verifica se o nome do filho é o mesmo informado,se o tipo é uma pasta
     tmp = Atual; //Caso seja atribui ao tmp o valor do atual
   else{
-    Atual = Atual->Irmao; //Pega o irmao do atual
-  while((Atual!=NULL)&&(strcmp(Atual->Nome, Nome)!=0)&&(Atual->Tipo != 1)){ //Percorre os irmaos até encontrar um arquivo com o nome desejadp
+
+  while(Atual->Irmao!=NULL){ //Percorre os irmaos até encontrar um arquivo com o nome desejadp
     Atual = Atual->Irmao; //Atribui ao atual o proximo irmao
+    if(strcmp(Atual->Nome, Nome) == 0 && Atual->Tipo == 0){
+      tmp = Atual;
+      return tmp;
+    }
   }
-  if(Atual != NULL)
-    tmp = Atual; //Atribui ao tmp o atual
-  else
     printf("O Sistema nao pode encontrar o caminho especificado.\n\n");
+    tmp = Current;
 }
     return tmp; //Retorna o valor encontrado
 }
@@ -71,23 +75,50 @@ Directory* VoltarDiretorio(Directory* Atual){
 Directory* InserirDirectory(Directory* Atual, char Nome[])
 {
   Directory* Pai = (Directory*)malloc(sizeof(Directory)); //Aloca um elemento
+  Directory* Aux = Atual;
+  Directory *novoDirectory = (Directory*)malloc(sizeof(Directory)); //Aloca novo elemento
 	Pai = Atual; //Elemento pai recebe o atual
   if(Atual->Filho != NULL){ //Verifica se se existe filho
     Atual = Atual->Filho; //Atual recebe o filho
-    while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
-    {
-      Atual = Atual->Irmao; //Pega o proximo irmao
+    if(strcmp(Nome, Atual->Nome) < 0){
+      Aux = Atual;
+
+      Pai->Filho = novoDirectory;
+      novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+      novoDirectory->Irmao = Atual; //Atribui ao Irmao o valor null
+      strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+      novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+      novoDirectory->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
     }
-    Directory *novoDirectory = (Directory*)malloc(sizeof(Directory)); //Aloca novo elemento
-    novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
-    novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
-    Atual->Irmao = novoDirectory; // Atribui como irmao do atual o novo elemento
-    strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
-    novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
-    novoDirectory->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+    else{
+
+      while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
+      {
+        Aux = Atual;
+        Atual = Atual->Irmao; //Pega o proximo irmao
+
+        if(strcmp(Nome, Atual->Nome) < 0){
+          Aux->Irmao = novoDirectory;
+          novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+          novoDirectory->Irmao = Atual; //Atribui ao Irmao o valor null
+          strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+          novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+          novoDirectory->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+          return Pai;
+        }
+
+      }
+
+        novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+        novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
+        Atual->Irmao = novoDirectory; // Atribui como irmao do atual o novo elemento
+        strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+        novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+        novoDirectory->Tipo = 0; //Atribui 0 ao Tipo representando uma pasta
+
+    }
   }
 else{
-		Directory* novoDirectory = (Directory*)malloc(sizeof(Directory)); //Aloca novo elemento
 		novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
 		novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
 		novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
@@ -103,29 +134,56 @@ return Pai; //Retorna o elemento pai
 Directory* InserirFile(Directory* Atual, char Nome[])
 {
   Directory* Pai = (Directory*)malloc(sizeof(Directory)); //Aloca um elemento
+  Directory* Aux = Atual;
+  Directory *novoDirectory = (Directory*)malloc(sizeof(Directory)); //Aloca novo elemento
 	Pai = Atual; //Elemento pai recebe o atual
   if(Atual->Filho != NULL){ //Verifica se se existe filho
     Atual = Atual->Filho; //Atual recebe o filho
-    while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
-    {
-      Atual = Atual->Irmao; //Pega o proximo irmao
+    if(strcmp(Nome, Atual->Nome) < 0){
+      Aux = Atual;
+
+      Pai->Filho = novoDirectory;
+      novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+      novoDirectory->Irmao = Atual; //Atribui ao Irmao o valor null
+      strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+      novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+      novoDirectory->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
     }
-    Directory *novoDirectory = (Directory*)malloc(sizeof(Directory)); //Aloca novo elemento
-    novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
-    novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
-    Atual->Irmao = novoDirectory; // Atribui como irmao do atual o novo elemento
-    strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
-    novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
-    novoDirectory->Tipo = 1;  //Atribui 1 ao Tipo representando um arquivo
+    else{
+
+      while (Atual->Irmao != NULL) //Percorre os diretorios enquanto ouverem irmaos
+      {
+        Aux = Atual;
+        Atual = Atual->Irmao; //Pega o proximo irmao
+
+        if(strcmp(Nome, Atual->Nome) < 0){
+          Aux->Irmao = novoDirectory;
+          novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+          novoDirectory->Irmao = Atual; //Atribui ao Irmao o valor null
+          strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+          novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+          novoDirectory->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
+          return Pai;
+        }
+
+      }
+
+        novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
+        novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
+        Atual->Irmao = novoDirectory; // Atribui como irmao do atual o novo elemento
+        strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
+        novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
+        novoDirectory->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
+
+    }
   }
 else{
-		Directory* novoDirectory = (Directory*)malloc(sizeof(Directory));
 		novoDirectory->Pai = Pai; //Atribui ao Pai o elemento pai
 		novoDirectory->Filho = NULL; //Atribui null ao filho do novo elemento
 		novoDirectory->Irmao = NULL; //Atribui ao Irmao o valor null
-    novoDirectory->Tipo = 1; //Atribui 1 ao Tipo representando um arquivo
+    novoDirectory->Tipo = 1; //Atribui 0 ao Tipo representando uma pasta
 		strcpy(novoDirectory->Nome, Nome); //Atribui um nome ao novo elemento
-		Atual->Filho = novoDirectory;  // Atribui como filho do atual o novo elemento
+		Atual->Filho = novoDirectory; //Atribui ao Atual filho o novo elemento
     }
 return Pai; //Retorna o elemento pai
 }
@@ -150,5 +208,12 @@ void MostrarDiretorios(Directory* Atual)
 //Fim da função
 
 Directory* DeletaElemento(Directory* Atual, char Nome[]){
+  Directory *Aux = Atual;
 
+/*
+  if(aux == NULL){
+        printf("Pasta/Arquivo nao encontrado. \n");
+  }
+  else if(aux->Filho)
+  */
 }

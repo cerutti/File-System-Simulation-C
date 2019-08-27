@@ -56,7 +56,7 @@ int main(){
 
       }
       else if(strcmp(Op, "ex") == 0){
-        return 0;
+        break;
       }
       else{
         printf("comando invalido \n");
