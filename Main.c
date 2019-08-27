@@ -2,7 +2,7 @@
 Trabalho de Estrutura de Dados
 Tema: Sistema que simula de forma simples o funcionamento de um sistema de arquivos, com funções como adicionar pasta/arquivo, navegar entre diretórios e remoção de pastas/arquivos.
 Alunos: Alisson Cerutti, Mitchell Luiz Damasceno Lopes, Thiago Leite de Oliveira Acco
-https://github.com/cerutti/File-System-Simulation-using-C
+https://github.com/cerutti/File-System-Simulation-C
 */
 
 #include <stdio.h>
