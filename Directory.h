@@ -133,7 +133,6 @@ Directory* InserirDirectory(Directory* Atual, char Nome[]) {
 //Fim da função
 
 //Função responsavel pela inserção de um arquivo
-
 Directory* InserirFile(Directory* Atual, char Nome[]) {
     Directory* Pai = (Directory*) malloc(sizeof (Directory)); //Aloca um elemento
     Directory* Aux = Atual;
@@ -199,8 +198,12 @@ void MostrarDiretorios(Directory* Atual) {
         printf("\n");
         while (Atual != NULL) //Percorre enquanto o atual for diferente de null
         {
-            printf("%s\n", Atual->Nome); //Imprime o nome do atual
-            Atual = Atual->Irmao; //Pega o proximo irmao
+          if(Atual->Tipo == 0)
+            printf("%s/\n", Atual->Nome); //Imprime o nome do atual
+          else
+          printf("%s\n", Atual->Nome); //Imprime o nome do atual
+
+          Atual = Atual->Irmao; //Pega o proximo irmao
         }
         printf("\n");
     }
@@ -212,7 +215,7 @@ void MostrarDiretorios(Directory* Atual) {
 void DeletaElementoAux(Directory *Atual) {
     if (Atual != NULL) { //Veritica se o atual é diferente de null
         DeletaElementoAux(Atual->Filho); //Chama a função novamente passando o proximo filho
-        //printf("Foi Deletado Com Sucesso: %s\n", Atual->Nome);
+        printf("Foi Deletado Com Sucesso: %s\n", Atual->Nome);
         free(Atual); //libera atual
         DeletaElementoAux(Atual->Irmao); //Chama a função novamente passando o proximo irmao
     }
@@ -222,15 +225,17 @@ void DeletaElementoAux(Directory *Atual) {
 //Função de deletar elemento
 
 Directory* DeletaElemento(Directory* Atual, char Nome[]) {
+    int Count = 0;
     Directory *Aux = Atual;
     Directory *Anterior = Atual;
     Anterior = Atual->Filho;
 
     if (Atual->Filho == NULL) //Verifica se o diretórito é vazio
-        printf("Nao existe arquivo/pasta com esse nome\n");
+          printf("Nao existe arquivo/pasta com esse nome\n");
     else { //Caso não esteja vazio
         Atual = Atual->Filho; //Atual recebe o filho
         if (strcmp(Nome, Atual->Nome) == 0) { //Verifica se o filho é o arquivo desejado
+            Count++;
             if (Atual->Irmao == NULL) { //Verifica se o arquivo não tem irmaos
                 if (Atual->Filho == NULL) { //Verifica se o arquivo não tem filhos
                     free(Atual); //libera o atual
@@ -260,6 +265,7 @@ Directory* DeletaElemento(Directory* Atual, char Nome[]) {
                 Anterior = Atual; //Anterior recebe atual
                 Atual = Atual->Irmao; //Atual recebe o proximo irmao
                 if (strcmp(Nome, Atual->Nome) == 0) { //Compara se é o arquivo desejado
+                  Count++;
                     if (Atual->Irmao == NULL) {  //Verifica se não tem irmaos
                         if (Atual->Filho == NULL) { //Verifica se não tem filhos
                             Anterior->Irmao = NULL; //Irmão do anterior recebe null
@@ -287,5 +293,9 @@ Directory* DeletaElemento(Directory* Atual, char Nome[]) {
             }
         }
     }
+    if(Count == 0){
+      printf("Nao existe arquivo/pasta com esse nome\n");
+    }
+    return Aux;
 }
 //Fim da função
